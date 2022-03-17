@@ -1,0 +1,30 @@
+{% extends 'pages/base.html' %}
+{% block title %} Login {% endblock %}
+{% block content %}
+{% include 'pages/nav.html' %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>login</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/Google-Style-Login.css">
+    <link rel="stylesheet" href="/static/css/Pretty-Registration-Form.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body class="login-body">
+<div class="login-card"><img class="profile-img-card" src="/static/img/users.png ">
+    <p class="profile-name-card"></p>
+    <form class="form-signin" action="" method="POST">{% csrf_token %}<span class="reauth-email"> </span><input
+            class="form-control" type="text" id="inputEmail" name="username" required=""
+            autofocus="" placeholder="Username"><input class="form-control" type="password" id="inputPassword" required="" name="password"
+                                placeholder="Password">
+        <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Sign in</button>
+    </form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+{% endblock %}
