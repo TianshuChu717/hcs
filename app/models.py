@@ -19,7 +19,7 @@ class Goods(models.Model):
 class UserProfile(models.Model):
     NAME_MAX_LENGTH = 128
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    password = models.CharField(max_length=NAME_MAX_LENGTH)
     email = models.CharField(max_length=128)
     money = models.IntegerField(default=10000)
 

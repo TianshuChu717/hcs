@@ -12,7 +12,7 @@
 <body class="login-body">
 <div class="login-card">
     <img class="profile-img-card" src="/static/img/users.png ">
-    <form class="form-signin" action="" method="POST">
+    <form class="form-signin" action="{% url 'app:login' %}" method="POST">
         {% csrf_token %}
         <span class="reauth-email"> </span>
         <input class="form-control" type="text" id="inputEmail" name="username" required="" autofocus="" placeholder="Username">

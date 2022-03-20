@@ -71,7 +71,7 @@ def populate():
     add_user("admin", "admin", "admin")
     add_goods_list = []
     for i in range(50):
-        good_name = goods_list[random.randint(0, len(goods_list))]
+        good_name = goods_list[random.randint(-1, len(goods_list))]
         add_goods_list.append(good_name)
         if i % 10 == 0:
             name = "customer" + str(i / 10)
