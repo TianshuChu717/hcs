@@ -92,7 +92,7 @@ def populate():
 
 
 def add_user(username, password):
-    user_profile = UserProfile.objects.create(name=username,password=password)
+    user_profile = UserProfile.objects.create(username=username,password=password)
     return user_profile
 
 
