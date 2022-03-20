@@ -59,23 +59,21 @@ goods_list = ['Biscuits饼干类', 'Snacks 零嘴', 'Crisps 各式洋芋片', 'C
 def populate():
     conn = _sqlite3.connect("db.sqlite3")
     cursor = conn.cursor()
-    dele = "delete from auth_user;"
     dele2 = "delete from app_userprofile"
     dele3 = "delete from app_goods"
     dele4 = "delete from app_likes"
-    cursor.execute(dele)
     cursor.execute(dele2)
     cursor.execute(dele3)
     cursor.execute(dele4)
     conn.commit()
-    add_user("admin", "admin", "admin")
+    add_user("admin", "admin")
     add_goods_list = []
     for i in range(50):
         good_name = goods_list[random.randint(-1, len(goods_list))]
         add_goods_list.append(good_name)
         if i % 10 == 0:
             name = "customer" + str(i / 10)
-            user = add_user(name, name, name)
+            user = add_user(name, name)
             for j in range(10):
                 if len(add_goods_list) > 0:
                     try:
@@ -92,9 +90,8 @@ def populate():
         Goods.objects.get_or_create(name=item)
 
 
-def add_user(username, password, name):
-    user1 = User.objects.create(username=username, password=password)
-    user_profile = UserProfile.objects.create(user=user1, name=name)
+def add_user(username, password):
+    user_profile = UserProfile.objects.create(name=username,password=password)
     return user_profile
 
 
