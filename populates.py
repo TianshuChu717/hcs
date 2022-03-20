@@ -68,8 +68,8 @@ def populate():
     conn.commit()
     add_user("admin", "admin")
     add_goods_list = []
-    for i in range(50):
-        good_name = goods_list[random.randint(-1, len(goods_list))]
+    for i in range(len(goods_list)):
+        good_name = goods_list[i]
         add_goods_list.append(good_name)
         if i % 10 == 0:
             name = "customer" + str(i / 10)
@@ -78,7 +78,8 @@ def populate():
                 if len(add_goods_list) > 0:
                     try:
                         gname = add_goods_list.pop()
-                        crawler(gname)
+                        # 已经爬取完了，只要生成对应关系就好了
+                        # crawler(gname)
                         goods = Goods.objects.create(name=gname, price=random.randint(0, 100),
                                                      number=random.randint(0, 100),picture=gname+".jpg")
                         Likes.objects.create(likes_from=user, likes_to=goods, create_time=generate_date())
