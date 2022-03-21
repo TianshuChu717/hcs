@@ -173,12 +173,16 @@ def logout(request):
 
 def add_like(request):
     # good_content = {}
+    result = 0
     if request.method == 'POST':
         if not request.session.get('is_login', None):
             print("add_like: is not login!")
             render(request, "pages/login.html")
-        username = request.session["username"]
-        good_name = request.POST.get('good_name')
+        username = request.session.get("username")
+        good_name = request.POST['good']
+        print(good_name)
+
+        result = 2
         try:
             good = Goods.objects.get(name=good_name)
             user_pro = UserProfile.objects.get(username=username)
@@ -186,6 +190,8 @@ def add_like(request):
             likes_num = good.likes_num + 1
             number = good.number - 1
             Goods.objects.update(name=good_name, likes_num=likes_num, number=number)
+            print("done")
+            result = 1
             #
             # liked_goods = Likes.objects.filter(likes_from=user_pro)
             # goods = Goods.objects.all()
@@ -195,7 +201,7 @@ def add_like(request):
             # good_content['goods'] = None
             # good_content['liked_goods'] = None
             print(str(e))
-    return redirect("/")
+    return HttpResponse(result)
 
 
 # def forget_password(request):

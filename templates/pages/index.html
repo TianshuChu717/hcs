@@ -7,10 +7,28 @@
 	<div class='col-lg-3 col-md-6 col-sm-12'>
 		<div class='tile p-3 mt-3 shadow'>
 			<img src="../../media/image/{{product.name}}.jpg" width="100px" height="100px">
-			<h5 class='pt-1'>{{product.name}}</h5>
-			<a class='btn btn-secondary' >Like Product</a>
+			<h5 class='pt-1' id="name">{{product.name}}</h5>
+			<a class='btn btn-secondary' onclick="add()" >Like Product</a>
 		</div>
 	</div>
 	{% endfor %}
 </div>
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="content1">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.js"></script>
+    <script src="/static/js/addLike.js"></script>
 {% endblock %}
