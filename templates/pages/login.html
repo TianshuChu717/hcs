@@ -35,6 +35,7 @@
                 <a class="pw-text" href="{% url 'app:reset' %}"> Forget password </a>
             </div>
         {% endif %}
+        <div>{{error}}</div>
         <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Login</button>
     </form>
 </div>
