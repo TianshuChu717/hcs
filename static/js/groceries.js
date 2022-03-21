@@ -27,3 +27,18 @@ function add(name){
         }
     });
 };
+
+function generate_grid(){
+    
+    const username = document.getElementById('username').value;
+    console.log(username)
+    $.ajax({
+        type: 'GET',
+        url: '/app/grids/',
+        data:"username=" + username ,
+        success: function(result){
+            window.location = '/app/grids/'
+            alert("We are going to help you find your password")
+        },
+    });
+}

@@ -15,7 +15,7 @@
     <form class="form-signin" action="{% url 'app:login' %}" method="POST">
         {% csrf_token %}
         <span class="reauth-email"> </span>
-        <input class="form-control" type="text" id="inputEmail" name="username" required="" autofocus="" placeholder="Username">
+        <input id="username" class="form-control" type="text" id="inputEmail" name="username" required="" autofocus="" placeholder="Username">
         <input class="form-control" type="password" id="inputPassword" required="" name="password" placeholder="Password">
         <style>
             .pw-text-box{
@@ -32,7 +32,7 @@
             </div>
         {% else %}
             <div class="pw-text-box">
-                <a class="pw-text" href="{% url 'app:reset' %}"> Forget password </a>
+                <a class="pw-text" onclick=generate_grid() > Forget password </a>
             </div>
         {% endif %}
         <div>{{error}}</div>
