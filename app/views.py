@@ -187,9 +187,9 @@ def add_like(request):
             good = Goods.objects.get(name=good_name)
             user_pro = UserProfile.objects.get(username=username)
             Likes.objects.create(likes_from=user_pro, likes_to=good)
-            likes_num = good.likes_num + 1
-            number = good.number - 1
-            Goods.objects.update(name=good_name, likes_num=likes_num, number=number)
+            good.likes_num = good.likes_num + 1
+            good.number = good.number - 1
+            good.save()
             print("done")
             result = 1
             #
