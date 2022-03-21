@@ -1,8 +1,6 @@
 from multiprocessing import context
-from ssl import _create_default_https_context
 from django.contrib import auth
 from django.contrib.auth.models import User
-from sklearn.metrics import classification_report
 
 from app import models
 from app.models import UserProfile, Goods, Likes
@@ -105,6 +103,7 @@ def register(request):
             UserProfile.objects.create(username=name, password=password1, email=email)
             return render(request, 'pages/login.html')
 
+
 def login(request):
     # if request.method == 'GET':
     #     return render(request, 'pages/login.html')
@@ -128,10 +127,11 @@ def login(request):
             else:
                 print("login error")
                 context_dict['error'] = "Username or password is invalid."
-                return render(request, 'pages/login.html',context=context_dict)
+                return render(request, 'pages/login.html', context=context_dict)
         except Exception as e:
             print(str(e))
     return render(request, 'pages/login.html')
+
 
 def reset(request):
     context_dict = {}
@@ -154,10 +154,11 @@ def reset(request):
             else:
                 context_dict['error'] = "The repeat new password is different."
                 print("ERROR")
-                return render(request, 'pages/reset.html',context=context_dict)
+                return render(request, 'pages/reset.html', context=context_dict)
         else:
             print(2)
             return render(request, 'pages/reset.html')
+
 
 # def register(request):
 #     registered = False
@@ -219,7 +220,6 @@ def reset(request):
 
 
 def logout(request):
-
     request.session.flush()
     return HttpResponseRedirect('/app/login/')
 
@@ -322,3 +322,37 @@ def random_authentication(request):
                 HttpResponse("Wrong answer!")
         except Exception as e:
             print(str(e))
+
+
+def comparison_authentication(request):
+    content = {}
+    if request.method == 'GET':
+        username = request.GET.get('username')
+        try:
+            user_pro = UserProfile.objects.get(username=username)
+            if user_pro:
+                liked_goods = Likes.objects.filter(likes_from=user_pro).order_by('?').first()
+                liked_good = liked_goods.likes_to
+                goods = Goods.objects.all().order_by('?')[:8]
+                content['goods'] = goods
+                content['liked_goods'] = liked_good
+                return render(request, 'pages/login.html', context=content)
+        except Exception as e:
+            print(str(e))
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        select_good_name = request.POST.get('good_name')
+        try:
+            user_pro = UserProfile.objects.get(username=username)
+            liked_goods = Likes.objects.filter(likes_from=user_pro)
+            select_good = Goods.objects.filter(name=select_good_name)
+            if select_good:
+                if select_good in liked_goods:
+                    render(request, 'pages/login.html', context={'msg': 'success!'})
+                else:
+                    HttpResponse("Wrong answer!")
+            else:
+                HttpResponse("Wrong answer!")
+        except Exception as e:
+            print(str(e))
+    render(request, 'pages/login.html', context={'msg': 'Something wrong!'})
