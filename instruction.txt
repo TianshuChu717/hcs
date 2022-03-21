@@ -1,0 +1,8 @@
+How to run our project:
+
+1. enter "pip install -r requirements.txt" to install the dependencies
+2. enter "python manage.py migrate" to migrate database
+3. run the python file "populates.py" to create data in database
+4. enter "python manage.py runserver"
+5. assess "http://127.0.0.1:8000/" in your browser
+6. Now you can use our project!
