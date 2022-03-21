@@ -3,7 +3,7 @@ function add(name){
     // const good = $('#name').val();
 
     const good =name
-
+    console.log("Adding grocery:",name)
     $.ajax({
         type: 'POST',
         url: '/app/add_like/',
