@@ -16,6 +16,7 @@ function add(name){
             else if(result==1){
                 alert("succesfully added");
                 location.reload()
+
             }
             else{
                 alert("error happened");

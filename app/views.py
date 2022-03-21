@@ -1,4 +1,10 @@
+from multiprocessing import context
+from ssl import _create_default_https_context
 from django.contrib import auth
+from django.contrib.auth.models import User
+from sklearn.metrics import classification_report
+
+from app import models
 from app.models import UserProfile, Goods, Likes
 from django.shortcuts import render
 from django.views.generic import View, ListView
@@ -51,33 +57,59 @@ def index(request):
     return render(request, 'pages/index.html', context=good_content)
 
 
+# def register(request):
+#     # if request.method == 'GET':
+#     #     return render(request, 'pages/registration.html')
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         print(username)
+#         print(email)
+#         print(password)
+#
+#         try:
+#             user = UserProfile.objects.filter(username=username)
+#             print(user)
+#             if username not in user and username != '':
+#                 UserProfile.objects.create(username=username, password=password, email=email)
+#                 return render(request, 'pages/login.html')
+#             else:
+#                 HttpResponse("Your username is invalue")
+#         except Exception as e:
+#             print(str(e))
+#     return render(request, 'pages/registration.html')
+
 def register(request):
-    # if request.method == 'GET':
-    #     return render(request, 'pages/registration.html')
+    if request.method == 'GET':
+        return render(request, 'pages/registration.html')
     if request.method == 'POST':
-        username = request.POST.get('username')
+        name = request.POST.get('username')
         email = request.POST.get('email')
-        password = request.POST.get('password')
-        print(username)
-        print(email)
-        print(password)
-
-        try:
-            user = UserProfile.objects.filter(username=username)
-            print(user)
-            if username not in user and username != '':
-                UserProfile.objects.create(username=username, password=password, email=email)
-                return render(request, 'pages/login.html')
-            else:
-                HttpResponse("Your username is invalue")
-        except Exception as e:
-            print(str(e))
-    return render(request, 'pages/registration.html')
-
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('re_password')
+        if password1 != password2:
+            tkinter.messagebox.showinfo('Hint', 'The two passwords are not the same!')
+            return render(request, 'pages/registration.html')
+        else:
+            same_name_user = UserProfile.objects.filter(username=name)
+            if same_name_user:
+                tkinter.messagebox.showinfo('Hint', 'The user name is occupied!')
+                return render(request, 'pages/registration.html')
+            same_email_user = UserProfile.objects.filter(email=email)
+            if same_email_user:
+                tkinter.messagebox.showinfo('Hint', 'The email address has been registered!')
+                return render(request, 'pages/registration.html')
+            if not User.objects.filter(username=name).exists():
+                User.objects.create_user(username=name, password=password1)
+            UserProfile.objects.create(username=name, password=password1, email=email)
+            return render(request, 'pages/login.html')
 
 def login(request):
     # if request.method == 'GET':
     #     return render(request, 'pages/login.html')
+    context_dict = {}
+
     if request.method == 'POST':
         # print('1')
         username = request.POST.get('username')
@@ -85,19 +117,47 @@ def login(request):
         print(username)
         print(password)
         try:
-            user = UserProfile.objects.get(username=username)
-            if user.password == password:
+            user = auth.authenticate(username=username, password=password)
+            if user:
+                auth.login(request, user)
                 user.is_login = True
                 user.save()
                 request.session["is_login"] = "1"
                 request.session["username"] = username
                 return redirect("/")
             else:
-                HttpResponse("Incorrect username or password")
+                print("login error")
+                context_dict['error'] = "Username or password is invalid."
+                return render(request, 'pages/login.html',context=context_dict)
         except Exception as e:
             print(str(e))
     return render(request, 'pages/login.html')
 
+def reset(request):
+    context_dict = {}
+    if request.method == 'GET':
+        return render(request, 'pages/reset.html')
+    if request.method == 'POST':
+        username = request.POST.get('user_name')
+        password1 = request.POST.get('new_password')
+        password2 = request.POST.get('re_new_password')
+        if User.objects.filter(username=username).exists():
+            print(1)
+            if password1 == password2:
+                user = User.objects.get(username=username)
+                user.set_password(password1)
+                user.save()
+                user_change = models.UserProfile.objects.get(username=username)
+                user_change.password = password1
+                user_change.save()
+                return render(request, 'pages/login.html')
+            else:
+                context_dict['error'] = "The repeat new password is different."
+                print("ERROR")
+                return render(request, 'pages/reset.html',context=context_dict)
+        else:
+            print(2)
+            return render(request, 'pages/reset.html')
 
 # def register(request):
 #     registered = False
@@ -159,6 +219,7 @@ def login(request):
 
 
 def logout(request):
+
     request.session.flush()
     return HttpResponseRedirect('/app/login/')
 
