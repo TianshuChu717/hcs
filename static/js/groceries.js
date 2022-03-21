@@ -28,26 +28,15 @@ function add(name){
 
 function generate_grid(){
     
-    const username = document.getElementById('')
-    console.log("username",username)
+    const username = document.getElementById('username').value;
+    console.log(username)
     $.ajax({
         type: 'GET',
         url: '/app/grids/',
         data:"username=" + username ,
         success: function(result){
-            console.log(result)
-            // if(result==2){
-            //     alert("??")
-            // }
-            // else if(result==1){
-            //     alert("succesfully added");
-            // }
-            // else{
-            //     alert("error happened");
-            // }
+            window.location = '/app/grids/'
+            alert("We are going to help you find your password")
         },
-        error: function(result){
-            // message("error")
-        }
     });
 }
