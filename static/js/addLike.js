@@ -15,9 +15,7 @@ function add(name){
             }
             else if(result==1){
                 alert("succesfully added");
-                // 做一下网页刷新
-                // window.location.href='#';
-
+                window.location.href = '#';
             }
             else{
                 alert("error happened");
