@@ -181,7 +181,6 @@ def add_like(request):
         username = request.session.get("username")
         good_name = request.POST['good']
         print(good_name)
-
         result = 2
         try:
             good = Goods.objects.get(name=good_name)

@@ -1,7 +1,9 @@
 
-function add(){
+function add(name){
     // const good = $('#name').val();
-    const good ="Biscuits饼干类"
+
+    const good =name
+
     $.ajax({
         type: 'POST',
         url: '/app/add_like/',
