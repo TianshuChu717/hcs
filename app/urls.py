@@ -11,4 +11,5 @@ urlpatterns = [
     path('add_like/', views.add_like, name='add_like'),
     path('reset/',views.reset,name="reset")
 
+
 ]

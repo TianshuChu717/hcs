@@ -3,7 +3,7 @@ function add(name){
     // const good = $('#name').val();
 
     const good =name
-    console.log("Adding grocery:",name)
+
     $.ajax({
         type: 'POST',
         url: '/app/add_like/',
@@ -15,6 +15,8 @@ function add(name){
             }
             else if(result==1){
                 alert("succesfully added");
+                location.reload()
+
             }
             else{
                 alert("error happened");

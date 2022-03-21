@@ -15,6 +15,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.http import HttpResponse
+
+
 # from django.contrib.auth import authenticate, login
 
 
@@ -24,6 +26,7 @@ def index(request):
     if request.method == 'GET':
         try:
             goods = Goods.objects.all()
+
             good_content['goods'] = goods
         except Exception as e:
             good_content['goods'] = None
@@ -34,14 +37,23 @@ def index(request):
             username = request.session["username"]
             try:
                 user_pro = UserProfile.objects.get(username=username)
-                liked_goods = Likes.objects.filter(likes_from=user_pro)
-                good_content['liked_goods'] = liked_goods
+                likes = Likes.objects.filter(likes_from=user_pro)
+                likes_goods = []
+                for like in likes:
+                    good = like.likes_to
+                    likes_goods.append(good)
+                good_content['liked_goods'] = likes_goods
+
+                not_liked = []
+                for item in goods:
+                    if item not in likes_goods:
+                        not_liked.append(item)
+                good_content['not_liked'] = not_liked
             except Exception as e:
                 good_content['liked_goods'] = None
                 print(str(e))
         else:
             print("is not login!")
-    print(good_content)
     return render(request, 'pages/index.html', context=good_content)
 
 
@@ -207,9 +219,10 @@ def reset(request):
 
 
 def logout(request):
-    if request.method == 'GET':
-        auth.logout(request)
-        return render(request, 'pages/login.html')
+
+    request.session.flush()
+    return HttpResponseRedirect('/app/login/')
+
 
 #
 # def show_all_goods(request):
