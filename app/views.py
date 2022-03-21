@@ -1,4 +1,6 @@
+from ssl import _create_default_https_context
 from django.contrib import auth
+from sklearn.metrics import classification_report
 from app.models import UserProfile, Goods, Likes
 from django.shortcuts import render
 from django.views.generic import View, ListView
@@ -62,7 +64,6 @@ def register(request):
             print(str(e))
     return render(request, 'pages/registration.html')
 
-
 def login(request):
     # if request.method == 'GET':
     #     return render(request, 'pages/login.html')
@@ -86,6 +87,25 @@ def login(request):
             print(str(e))
     return render(request, 'pages/login.html')
 
+def reset(request):
+    context_dict = {}
+    username = request.session["username"]
+    if request.method == 'POST':
+        new_pw = request.POST.get('new_password')
+        repeat_new_pw = request.POST.get('re_new_password')
+        try:
+            user = UserProfile.objects.get(username=username)
+            if user and new_pw == repeat_new_pw:
+                user.password = new_pw
+                user.save()
+                print("Username:",user.username)
+                print("Reset Password:",user.password)
+            else:
+                print("ERROR")
+                context_dict['error']="Repeat password is different."
+        except Exception as e:
+            print(str(e))           
+    return render(request,'pages/reset.html',context=context_dict)
 
 # def register(request):
 #     registered = False
@@ -173,19 +193,24 @@ def logout(request):
 
 def add_like(request):
     # good_content = {}
+    result = 0
     if request.method == 'POST':
         if not request.session.get('is_login', None):
             print("add_like: is not login!")
             render(request, "pages/login.html")
-        username = request.session["username"]
-        good_name = request.POST.get('good_name')
+        username = request.session.get("username")
+        good_name = request.POST['good']
+        print(good_name)
+        result = 2
         try:
             good = Goods.objects.get(name=good_name)
             user_pro = UserProfile.objects.get(username=username)
             Likes.objects.create(likes_from=user_pro, likes_to=good)
-            likes_num = good.likes_num + 1
-            number = good.number - 1
-            Goods.objects.update(name=good_name, likes_num=likes_num, number=number)
+            good.likes_num = good.likes_num + 1
+            good.number = good.number - 1
+            good.save()
+            print("done")
+            result = 1
             #
             # liked_goods = Likes.objects.filter(likes_from=user_pro)
             # goods = Goods.objects.all()
@@ -195,7 +220,7 @@ def add_like(request):
             # good_content['goods'] = None
             # good_content['liked_goods'] = None
             print(str(e))
-    return redirect("/")
+    return HttpResponse(result)
 
 
 # def forget_password(request):

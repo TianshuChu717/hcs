@@ -17,6 +17,24 @@
         <span class="reauth-email"> </span>
         <input class="form-control" type="text" id="inputEmail" name="username" required="" autofocus="" placeholder="Username">
         <input class="form-control" type="password" id="inputPassword" required="" name="password" placeholder="Password">
+        <style>
+            .pw-text-box{
+                text-align: center;
+            }
+            .pw-text{
+                color: blue;
+            }
+        </style>
+
+        {% if is_reset %}
+            <div class="pw-text-box">
+                <a class="pw-text" href="{% url 'app:reset' %}"> Reset password </a>
+            </div>
+        {% else %}
+            <div class="pw-text-box">
+                <a class="pw-text" href="{% url 'app:reset' %}"> Forget password </a>
+            </div>
+        {% endif %}
         <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Login</button>
     </form>
 </div>

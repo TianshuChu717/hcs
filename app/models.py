@@ -31,4 +31,4 @@ class UserProfile(models.Model):
 class Likes(models.Model):
     likes_from = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     likes_to = models.ForeignKey(Goods, on_delete=models.CASCADE)
-    create_time = models.DateTimeField(auto_created=True)
+    create_time = models.DateTimeField(auto_created=True, null=True)
