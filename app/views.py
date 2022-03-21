@@ -317,42 +317,50 @@ def random_authentication(request):
             liked_goods = Likes.objects.filter(likes_from=user_pro)
             select_good = Goods.objects.filter(name=select_good_name)
             if select_good in liked_goods:
-                render(request, 'pages/login.html', context={'msg': 'success!'})
+                return render(request, 'pages/login.html', context={'msg': 'success!'})
             else:
-                HttpResponse("Wrong answer!")
+                return HttpResponse("Wrong answer!")
         except Exception as e:
             print(str(e))
+        return render(request, 'pages/login.html', context={'msg': 'Something wrong!'})
 
 
 def comparison_authentication(request):
     content = {}
     if request.method == 'GET':
-        username = request.GET.get('username')
-        try:
-            user_pro = UserProfile.objects.get(username=username)
-            if user_pro:
-                liked_goods = Likes.objects.filter(likes_from=user_pro).order_by('?').first()
-                liked_good = liked_goods.likes_to
-                goods = Goods.objects.all().order_by('?')[:8]
-                content['goods'] = goods
-                content['liked_goods'] = liked_good
-                return render(request, 'pages/login.html', context=content)
-        except Exception as e:
-            print(str(e))
+        print("GET!")
+        return render(request, 'pages/comparison_authentication.html', context=content)
     elif request.method == 'POST':
-        username = request.POST.get('username')
-        select_good_name = request.POST.get('good_name')
+        print("POST!")
+        username = request.POST.get('user_name')
+        print(username)
+        good_name = request.POST.get('good_name')
+        print(good_name)
+        password = request.POST.get('new_password')
+        print(password)
+        re_password = request.POST.get('re_new_password')
         try:
             user_pro = UserProfile.objects.get(username=username)
+            if not user_pro:
+                return HttpResponse("This user does not exist!")
             liked_goods = Likes.objects.filter(likes_from=user_pro)
-            select_good = Goods.objects.filter(name=select_good_name)
-            if select_good:
-                if select_good in liked_goods:
-                    render(request, 'pages/login.html', context={'msg': 'success!'})
+            liked_goods_name = []
+            for liked_good in liked_goods:
+                liked_goods_name.append(re.sub("[^a-zA-Z]", "", liked_good.likes_to.name))
+            print(liked_goods_name)
+            if good_name in liked_goods_name:
+                if password == re_password:
+                    user = User.objects.get(username=username)
+                    user.set_password(password)
+                    user.save()
+                    user_change = UserProfile.objects.get(username=username)
+                    user_change.password = password
+                    user_change.save()
+                    return render(request, 'pages/login.html', context={'msg': 'success!'})
                 else:
-                    HttpResponse("Wrong answer!")
+                    HttpResponse("Please enter the same password twice!")
             else:
-                HttpResponse("Wrong answer!")
+                return HttpResponse("Wrong answer!")
         except Exception as e:
             print(str(e))
-    render(request, 'pages/login.html', context={'msg': 'Something wrong!'})
+        return render(request, 'pages/login.html', context={'msg': 'Something wrong!'})
