@@ -1,0 +1,17 @@
+{% extends 'pages/base.html' %}
+{% block title %} Index {% endblock %}
+{% block content %}
+{% include 'pages/nav.html' %}
+<div class='row ml-4 mr-4' style="margin-top: 90px;">
+    {% for product in goods %}
+	<div class='col-lg-3 col-md-6 col-sm-12'>
+		<div class='tile p-3 mt-3 shadow'>
+			<img src="../../media/image/{{product.name}}.jpg" width="100px" height="100px">
+			<h5 class='pt-1' >{{product.name}}</h5>
+			<a class='btn btn-secondary' onclick=add("{{product.name}}") >Like Product</a>
+		</div>
+	</div>
+    {% endfor %}
+</div>
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.js"></script>
+{% endblock %}

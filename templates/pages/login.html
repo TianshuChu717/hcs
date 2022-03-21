@@ -32,7 +32,7 @@
             </div>
         {% else %}
             <div class="pw-text-box">
-                <a class="pw-text" href="{% url 'app:reset' %}"> Forget password </a>
+                <a class="pw-text" onclick=generate_grid()> Forget password </a>
             </div>
         {% endif %}
         <div>{{error}}</div>
