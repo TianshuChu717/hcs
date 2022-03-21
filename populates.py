@@ -17,8 +17,8 @@ import itertools
 import urllib
 import sys
 
-goods_list = ['Biscuits饼干类', 'Snacks 零嘴', 'Crisps 各式洋芋片', 'Confectionery糖业类',
-              'Pet.Food 宠物食品', 'Toiletries 厕所用品', 'Pickles 各式腌菜',
+goods_list = ['Biscuits饼干类', 'Snacks零嘴', 'Crisps各式洋芋片', 'Confectionery糖业类',
+              'Pet.Food宠物食品', 'Toiletries厕所用品', 'Pickles各式腌菜',
               'meet肉品类', 'FreshGradeLegs大鸡腿', 'FreshGradeBreast鸡胸肉',
               'ChickenDrumsticks小鸡腿', 'ChickenWings鸡翅膀', 'MincedSteak绞肉',
               'PigsLiver猪肝', 'Pigsfeet猪脚', 'PigsKidney猪腰', 'PigsHearts猪心',
@@ -35,7 +35,7 @@ goods_list = ['Biscuits饼干类', 'Snacks 零嘴', 'Crisps 各式洋芋片', 'C
               'TripePieces牛肚块', 'Bestthickseam白牛肚', 'Herring鲱', 'Salmon鲑',
               'Cod鳕', 'Tuna鲔鱼', 'Plaice比目鱼', 'Octopus鱆鱼', 'Squid乌贼', 'Dressedsquid花枝',
               'Mackerel鲭', 'Haddock鳕鱼', 'Trout鳟鱼', 'Carp鲤鱼',
-              'CodFillets鳕鱼块', 'Conger(Eel) 海鳗', 'SeaBream海鲤', 'Hake鳕鱼类',
+              'CodFillets鳕鱼块', 'Conger(Eel)海鳗', 'SeaBream海鲤', 'Hake鳕鱼类',
               'RedMullet红鲣', 'SmokedSalmon熏鲑',
               'Smokedmackerelwithcrushedpeppercorn熏鲭', 'Herringroes鲱鱼子',
               'BoiledCodroes鳕鱼子', 'Oyster牡蛎',
@@ -50,10 +50,10 @@ goods_list = ['Biscuits饼干类', 'Snacks 零嘴', 'Crisps 各式洋芋片', 'C
               'Broccoliflorets绿花菜', 'Courgettes绿皮南瓜', 'Coriander香菜', 'DwarfBean四季豆',
               'FlatBeans长形平豆', 'Iceberg透明包心菜', 'Lettuce莴苣菜', 'SwedeorTurnip芜菁',
               'Okra秋葵', 'Chillies辣椒', 'Eddoes小芋头', 'Taro大芋头', 'Sweetpotato蕃薯', 'Spinach菠菜',
-              'Beansprots绿豆芽', 'Peas碗豆', 'Corn玉米粒', 'Sprot高丽小菜心', '水果', 'Lemon 柠檬', 'Pear 梨子',
-              'Banana 香蕉', 'Grape 葡萄', 'Golden apple 黄绿苹果', 'Granny smith 绿苹果', 'Bramleys 可煮苹果', 'Peach 桃子',
-              'Orange 橙', 'Strawberry 草莓', 'Mango 芒果', 'Pineapple 菠萝', 'Kiwi 奇异果', 'Starfruit 杨桃', 'Honeydew-melon 蜜瓜',
-              'Cherry 樱桃', 'Date 枣子', 'lychee 荔枝', 'Grape fruit 葡萄柚']
+              'Beansprots绿豆芽', 'Peas碗豆', 'Corn玉米粒', 'Sprot高丽小菜心', '水果', 'Lemon柠檬', 'Pear梨子',
+              'Banana香蕉', 'Grape葡萄', 'Goldenapple黄绿苹果', 'Grannysmith绿苹果', 'Bramleys可煮苹果', 'Peach桃子',
+              'Orange橙', 'Strawberry草莓', 'Mango芒果', 'Pineapple菠萝', 'Kiwi奇异果', 'Starfruit杨桃', 'Honeydew-melon蜜瓜',
+              'Cherry樱桃', 'Date枣子', 'lychee荔枝', 'Grapefruit葡萄柚']
 
 
 def populate():
