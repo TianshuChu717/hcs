@@ -15,7 +15,7 @@ function add(name){
             }
             else if(result==1){
                 alert("succesfully added");
-                window.location.href = '#';
+                location.reload()
             }
             else{
                 alert("error happened");
